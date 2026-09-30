@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hello-genai</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="panel">
+        <p class="eyebrow">hello-genai</p>
+        <h1>Ask a question</h1>
+
+        <form id="chat-form">
+          <label for="prompt" class="sr-only">Prompt</label>
+          <textarea id="prompt" rows="4" placeholder="Type a prompt here..." required></textarea>
+          <button type="submit">Send</button>
+        </form>
+
+        <div class="response-box">
+          <h2>Response</h2>
+          <p id="response">Ready to generate a response.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

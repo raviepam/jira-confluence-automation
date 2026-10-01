@@ -1,0 +1,10 @@
+- Use `tools/labeled_pr_corpus_evaluator.py` to measure predicted review findings against manually labeled expected findings in a JSONL corpus.
+- Provide one JSON object per non-empty line. Each record must contain `expected_findings` and `predicted_findings` arrays; optionally include `changed_lines` as a mapping from file paths to arrays of changed line numbers.
+- Give every expected finding a unique `id`, `category`, `file`, and positive `start_line`; `end_line` and `severity` are optional. Predictions require `category`, `file`, and `start_line`; `end_line`, `severity`, and boolean `actionable` are optional.
+- For adjudicated matches, set a prediction's `matched_expected_id`. Otherwise, findings match one-to-one when category and file agree and their line ranges overlap. Make manual matches only when labeled review data supports them.
+- Run `python3 tools/labeled_pr_corpus_evaluator.py corpus.jsonl`. Use `--output report.json` to save the metrics; otherwise the report is written to stdout.
+- Interpret precision, recall, and F1 with the reported true-positive, false-positive, and false-negative counts. Duplicate predictions are counted separately and treated as false positives after the first matching prediction.
+- Interpret actionability only over predictions with an `actionable` boolean; severity exact-match rate only over matched pairs with both severity labels; and changed-line anchor rate only when `changed_lines` is supplied.
+- Review `category_coverage` to see expected and matched findings by category. A missing metric denominator is reported as `null`; do not interpret it as zero.
+- Keep the corpus free of credentials and unnecessary personal data. Treat results as evaluation evidence, not as a substitute for human adjudication or a claim of causal product impact.
+- Fix invalid JSON, missing fields, duplicate expected IDs, or invalid line ranges before rerunning; do not silently discard malformed records.

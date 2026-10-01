@@ -1,0 +1,10 @@
+- Use `tools/pr_context_collector.py` when a review needs bounded, revision-pinned PR patches and file contents, plus selected repository guidance or architecture context.
+- Follow `./use-github_api_client.agent.md` for credentials and API errors, and `./use-github-pr-api.agent.md` for PR metadata and changed-file retrieval.
+- Set `GITHUB_TOKEN` in the process environment with minimum repository read access; never pass or print the token.
+- Run `python3 tools/pr_context_collector.py OWNER/REPOSITORY PULL_NUMBER`. Use repeated `--context-path PATH` options for ADRs, API schemas, manifests, or dependency files; `.pr-reviewer.yml` is requested automatically.
+- Use repeated `--exclude PATTERN` options to exclude additional paths. Default exclusions cover `node_modules`, generated files, `dist`, and `build` paths.
+- Use `--max-files`, `--max-file-bytes`, and `--max-context-bytes` to bound collection. Defaults are 100 files, 100,000 bytes per file, and 1,000,000 aggregate bytes, including patches.
+- Use `--output path.json` to save the JSON result; otherwise it is written to stdout. Each included file reports its path, kind, status, patch, content, and byte counts. Review `skipped` for files omitted due to deletion, exclusions, missing optional context, decoding, or limits.
+- Treat `head_sha` as the exact revision represented by the output. If the head changes during collection, rerun rather than mixing content across revisions.
+- Treat collected patches and contents as sensitive source code. Store output only in approved locations and do not send it to a model or commit it unless authorized.
+- Handle non-zero CLI exits as incomplete collection; inspect the diagnostic, correct permissions or limits, and retry only when safe.

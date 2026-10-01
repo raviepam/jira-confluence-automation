@@ -1,0 +1,9 @@
+- Use `tools/github_api_client.py` from Python tools that need authenticated, read-only GitHub REST API access.
+- Set `GITHUB_TOKEN` in the process environment with the minimum required repository permissions; never put tokens in command-line arguments, repository files, or logs.
+- Use `GitHubAPIClient.from_environment()` for normal operation. Pass an approved `api_url` only when targeting a configured GitHub API host; otherwise the client uses `GITHUB_API_URL` or `https://api.github.com`.
+- Use `repository_api_path("OWNER/REPOSITORY")` to validate and build repository API paths. Pass `get_json()` an endpoint beginning with `/repos/...` and optional query parameters as a dictionary.
+- Use `get_file_text(repository, path, ref, max_bytes)` for a repository-relative text file at a specific branch, tag, or commit. Enforce a reasonable byte limit and keep work pinned to the pull-request head SHA.
+- Handle `GitHubAPIError` for HTTP, permission, rate-limit, network, timeout, and invalid-JSON failures. Check its `status_code`; rate-limit messages may include `Retry-After` or reset information.
+- Handle `ContentTooLargeError` and `ValueError` when file paths, file metadata, size limits, or text decoding prevent content retrieval.
+- Do not assume this client supports write operations; it currently provides GET requests only. Add and review a separate method before performing any mutation.
+- Do not retry rate-limited or permission-denied calls blindly. Respect rate-limit guidance, bound retries, and keep failures visible to the caller.

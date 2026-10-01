@@ -1,0 +1,10 @@
+- Use `tools/github_pr_api.py` when a workflow needs GitHub pull-request metadata and a paginated list of changed files with patches.
+- Follow `./use-github_api_client.agent.md` for GitHub authentication, API host selection, rate limits, permissions, and error handling.
+- Set `GITHUB_TOKEN` in the process environment with minimum repository read access; never pass or print the token.
+- Run `python3 tools/github_pr_api.py OWNER/REPOSITORY PULL_NUMBER`. Add `--output path.json` to save JSON instead of writing it to stdout.
+- Use `--api-url` only for an approved GitHub API host, `--page-size` from 1 to 100 when pagination needs tuning, and `--max-pages` to bound retrieval. Defaults are the environment/default API URL, 100 items per page, and 30 pages.
+- Treat the returned `head_sha` as the revision the data describes. The tool checks the head before and after pagination; if it changes, rerun rather than combining results from different revisions.
+- Consume `changed_files` entries using `path`, `status`, `additions`, `deletions`, `changes`, and `patch`. A patch may be absent for binary, oversized, or otherwise unsupported files.
+- Handle non-zero CLI exits as retrieval failures. Check token permissions, repository and pull-request identifiers, pagination limits, and rate-limit guidance before retrying.
+- Treat saved PR JSON and patches as source-code data: keep output in an approved location and do not commit it unless explicitly authorized.
+- Use this tool for read-only retrieval; it does not post comments, change pull requests, or modify repository contents on GitHub.

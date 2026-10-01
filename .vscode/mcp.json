@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "echoPowerShell": {
+      "type": "stdio",
+      "command": "${userHome}/.local/share/powershell/7.6.6/pwsh",
+      "args": ["-NoLogo", "-NoProfile", "-File", "${workspaceFolder}/tools/mcp-echo.ps1"]
+    },
+    "atlassian": {
+      "type": "http",
+      "url": "https://mcp.atlassian.com/v2/mcp"
+    }
+  }
+}

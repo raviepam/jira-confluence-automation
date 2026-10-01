@@ -1,0 +1,9 @@
+- Create project-specific, IDE-agnostic instructions in `./instructions/` using verb-first, hyphen-separated names and the `.agent.md` extension.
+- Give each instruction one workflow and keep its steps concise, specific, and actionable; use bullets rather than explanatory sections.
+- Add every instruction to `./instructions/main.agent.md` with a one-line description and useful trigger keywords.
+- Keep platform-specific loading configuration in thin wrappers that point to the shared instruction; do not duplicate the instruction body in wrappers.
+- For VS Code and GitHub Copilot, use `.github/copilot-instructions.md` as the entry point and `.github/prompts/to-[name].prompt.md` as task-specific wrappers.
+- Ensure `.vscode/settings.json` enables instruction files and contains the project-approved Copilot settings; do not overwrite existing settings when updating the file.
+- When bootstrapping instruction infrastructure, identify the active IDE, add its entry point and required directories, and link the root catalog from the entry point.
+- Validate every catalog link, wrapper reference, and configuration file after changes; preserve existing project instructions and unrelated user settings.
+- Use English for instruction content unless the project specifies another language; respond to users in their language.

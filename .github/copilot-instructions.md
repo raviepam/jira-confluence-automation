@@ -1,0 +1,3 @@
+- Always follow the complete `./instructions/main.agent.md` catalog.
+- Reload the catalog on every prompt so it reflects current project instructions.
+- When a catalog entry matches the task, load and follow that linked instruction completely.
